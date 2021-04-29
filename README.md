@@ -229,7 +229,7 @@ see [Redis documentation](https://redis.io/commands/info) for details.\
 In addition, for every database there are metrics for total keys, expiring keys and the average TTL for keys in the database.\
 You can also export values of keys if they're in numeric format by using the `-check-keys` flag. The exporter will also export the size (or, depending on the data type, the length) of the key. This can be used to export the number of elements in (sorted) sets, hashes, lists, streams, etc.
 
-If you require custom metric collection, you can provide a [Redis Lua script](https://redis.io/commands/eval) using the `-script` flag. An example can be found [in the contrib folder](./contrib/sample_collect_script.lua).
+If you require custom metric collection, you can provide a [Redis Lua script](https://redis.io/commands/eval) using the `-script` flag. An example can be found [in the contrib folder](contrib/sample_collect_script.lua).
 
 
 ### The redis_memory_max_bytes metric
@@ -294,7 +294,7 @@ Here is a list of additional metrics that will be exposed when memory usage aggr
 
 The tests require a variety of real Redis instances to not only verify correctness of the exporter but also
 compatibility with older versions of Redis and with Redis-like systems like KeyDB or Tile38.\
-The [contrib/docker-compose-for-tests.yml](./contrib/docker-compose-for-tests.yml) file has service definitions for
+The [contrib/docker-compose-for-tests.yml](contrib/docker-compose-for-tests.yml) file has service definitions for
 everything that's needed.\
 You can bring up the Redis test instances first by running `make docker-env-up` and then, every time you want to run the tests, you can run `make docker-test`. This will mount the current directory (with the .go source files) into a docker container and kick off the tests.\
 Once you're done testing you can bring down the stack by running `make docker-env-down`.\
