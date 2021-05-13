@@ -9,3 +9,5 @@ src/
 .idea
 .vscode/
 *.rdb
+.github
+.github/*
