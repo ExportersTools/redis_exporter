@@ -1,7 +1,7 @@
 FROM golang:1.15-alpine as builder
 
 ADD . /
-
+RUN export GOPROXY=https://goproxy.io,direct
 RUN go build -o /redis_exporter main.go
 
 FROM alpine as alpine
