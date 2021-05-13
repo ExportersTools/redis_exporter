@@ -6,6 +6,52 @@
 Prometheus exporter for Redis metrics.\
 Supports Redis 2.x, 3.x, 4.x, 5.x, and 6.x
 
+## Update
+
+通过 oliver006/redis_exporter Fork.
+
+原版本 scrape 不支持传入密码方式访问, 修改新增 exporter/exporter.go 进行支持使用 password 访问.
+
+```go
+if e.options.Password != "" {
+		options = append(options, redis.DialPassword(e.options.Password))
+    }
+```
+
+## Build
+
+```shell script
+git clone https://github.com/ExportersTools/redis_exporter.git
+make
+```
+
+## Docker Build
+
+```shell script
+docker build -t redis_exporter:1 .
+```
+
+## StartUp
+
+### Standard StartUp
+
+```shell script
+./redis_exporter
+```
+
+### Docker StartUp
+
+```shell script
+docker  run -d -it -p 9121:9121 redis_exporter:1
+```
+
+## Usage
+
+### scrape
+
+```shell script
+curl 127.0.0.1:9121/scrape?target=redis://:password@127.0.0.1:6379
+```
 
 ## Building and running the exporter
 
@@ -17,7 +63,6 @@ cd redis_exporter
 go build .
 ./redis_exporter --version
 ```
-
 
 ### Pre-build binaries
 
