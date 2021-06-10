@@ -18,6 +18,21 @@ if e.options.Password != "" {
     }
 ```
 
+### Important
+
+出于安全考虑 redis_exporter 禁止使用密码方式进行访问, 我们在该版本基础上打开了传递密码功能.
+
+在 Prometheus 的 labels 中会显示出对应的密码信息, 这是十分危险的行为. 请谨慎使用.
+
+简单粗暴的想法是: 
+
+    在 redis_exporter 中对密码进行解密, 在 prometheus 配置部分, 填入密码为加密后的密码.
+    
+    就算密码被泄漏, 也是加密之后的密码.
+
+或者使用 promtheus label 功能对 label 进行替换.
+
+
 ## Build
 
 ```shell script
@@ -70,10 +85,8 @@ example
     3.1 redisUrl: redis://:1b1593ca870%23Bf@127.0.0.1:6379
 4. 对 redis exporter 接口进行 urlEncode
     4.1 redis://:1b1593ca870%23Bf@127.0.0.1:6379 -> redis%3A%2F%2F%3A1b1593ca870%2523Bf%40127.0.0.1%3A6379
-
-```text
-curl "http://127.0.0.1:9121/scrape?target=redis%3A%2F%2F%3A1b1593ca870%2523Bf%40127.0.0.1%3A6379"
-```
+    4.2 http scrape 测试 `curl "http://127.0.0.1:9121/scrape?target=redis%3A%2F%2F%3A1b1593ca870%2523Bf%40127.0.0.1%3A6379"`
+5. 与 prometheus 需要注意, prometheus 发起请求的时候会将参数进行 urlEncode, 所以, 我们在配置 prometheus 的时候传入第三步即可.
 
 ## Building and running the exporter
 
