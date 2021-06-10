@@ -136,11 +136,12 @@ func (e *Exporter) scrapeHandler(w http.ResponseWriter, r *http.Request) {
 	target = u.String()
 
 	opts := e.options
-	p, exist := u.User.Password()
 
+	p, exist := u.User.Password()
 	if exist {
 		opts.Password = p
 	}
+
 	//e.redisAddr = "redis://" + u.Host
 
 	if ck := r.URL.Query().Get("check-keys"); ck != "" {
@@ -1575,6 +1576,7 @@ func (e *Exporter) connectToRedis() (redis.Conn, error) {
 	}
 
 	log.Debugf("Trying DialURL(): %s", uri)
+
 	c, err := redis.DialURL(uri, options...)
 	if err != nil {
 		log.Debugf("DialURL() failed, err: %s", err)

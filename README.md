@@ -53,6 +53,28 @@ docker  run -d -it -p 9121:9121 redis_exporter:1
 curl 127.0.0.1:9121/scrape?target=redis://:password@127.0.0.1:6379
 ```
 
+### 特殊情况
+
+密码中含有特殊符号 (e.g: #)
+
+1. 需要先对 target 中的参数进行 urlencode
+2. 再对整个 target 进行 urlencode
+
+example
+
+1. 获取 redis 密码信息
+    1.1 requirepass: 1b1593ca870#Bf
+2. 先将密码 urlEncode
+    2.1 1b1593ca870#Bf -> 1b1593ca870%23Bf
+3. 拼接 redis url
+    3.1 redisUrl: redis://:1b1593ca870%23Bf@127.0.0.1:6379
+4. 对 redis exporter 接口进行 urlEncode
+    4.1 redis://:1b1593ca870%23Bf@127.0.0.1:6379 -> redis%3A%2F%2F%3A1b1593ca870%2523Bf%40127.0.0.1%3A6379
+
+```text
+curl "http://127.0.0.1:9121/scrape?target=redis%3A%2F%2F%3A1b1593ca870%2523Bf%40127.0.0.1%3A6379"
+```
+
 ## Building and running the exporter
 
 ### Build and run locally
